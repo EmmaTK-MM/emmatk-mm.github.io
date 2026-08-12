@@ -107,7 +107,7 @@
     yuezi:     [12, 1],
     fiftydays: [3, 6],
     hundred:   [3, 8],
-    banquet:   [11, 8],
+    banquet:   [136, 263],
     halfyear:  [5, 3],
     christmas: [3, 6],
     oneshoot:  [1, 6],

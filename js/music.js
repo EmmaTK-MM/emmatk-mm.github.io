@@ -8,7 +8,7 @@
   const PREF = "emma-music";       // "off" = visitor muted it
   const POS = "emma-music-pos";
 
-  const audio = new Audio("audio/wholesome.m4a");
+  const audio = new Audio("audio/lullaby.mp3");
   audio.loop = true;
   audio.volume = 0.32;
   audio.preload = "auto";
@@ -23,9 +23,24 @@
 
   const wantsMusic = () => localStorage.getItem(PREF) !== "off";
 
+  // Read the carried-over position ONCE, before the position-saver can
+  // overwrite it with this page's early ~0s ticks. The seek itself must
+  // wait for loadedmetadata: seeking a not-yet-loaded element is dropped
+  // by the browser, which is what made chapters restart from the top.
+  const savedPos = parseFloat(sessionStorage.getItem(POS) || "0");
+  let resumed = false;
+  const applyResume = () => {
+    if (resumed) return;
+    resumed = true;
+    if (isFinite(savedPos) && savedPos > 1 &&
+        audio.duration && savedPos < audio.duration - 2) {
+      try { audio.currentTime = savedPos; } catch (_) { /* keep playing */ }
+    }
+  };
+  if (audio.readyState >= 1) applyResume();
+  else audio.addEventListener("loadedmetadata", applyResume, { once: true });
+
   function play() {
-    const t = parseFloat(sessionStorage.getItem(POS) || "0");
-    if (isFinite(t) && t > 0 && t < 355) audio.currentTime = t;
     audio.play().then(() => {
       btn.classList.add("playing");
       btn.setAttribute("aria-pressed", "true");
@@ -61,6 +76,7 @@
     if (e.target && e.target.closest && e.target.closest("#musicToggle")) return;
     if (wantsMusic() && audio.paused) play();
   };
+  window.__emmaAudio = audio;
   addEventListener("pointerdown", kick);
   addEventListener("keydown", kick);
 

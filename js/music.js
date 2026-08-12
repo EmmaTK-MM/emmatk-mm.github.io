@@ -48,9 +48,15 @@
     }
   });
 
-  // any gesture (except on the toggle itself) starts the music while it is
-  // paused and wanted; listeners stay armed so a rejected play() (e.g. the
-  // gesture not granting activation) simply retries on the next gesture
+  // start automatically on page load. Browsers reject this only on the very
+  // first pageview before any interaction with the site; once the visitor
+  // has tapped anything (including the link that opened this page), the
+  // attempt succeeds and the music resumes where the last page left it.
+  if (wantsMusic()) play();
+
+  // fallback for that first blocked pageview: any gesture (except on the
+  // toggle itself) starts the music; listeners stay armed so a rejected
+  // play() simply retries on the next gesture
   const kick = e => {
     if (e.target && e.target.closest && e.target.closest("#musicToggle")) return;
     if (wantsMusic() && audio.paused) play();
@@ -58,7 +64,16 @@
   addEventListener("pointerdown", kick);
   addEventListener("keydown", kick);
 
-  addEventListener("pagehide", () => {
+  // keep the position fresh so the next page picks up mid-phrase
+  const savePos = () => {
+    if (!audio.paused) sessionStorage.setItem(POS, String(audio.currentTime));
+  };
+  addEventListener("pagehide", savePos);
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") savePos();
+  });
+  audio.addEventListener("timeupdate", () => {
+    // throttled by the browser to ~4Hz; cheap enough to keep always fresh
     if (!audio.paused) sessionStorage.setItem(POS, String(audio.currentTime));
   });
 })();

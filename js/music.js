@@ -8,7 +8,7 @@
   const PREF = "emma-music";       // "off" = visitor muted it
   const POS = "emma-music-pos";
 
-  const audio = new Audio("audio/gymnopedie.m4a");
+  const audio = new Audio("audio/wholesome.m4a");
   audio.loop = true;
   audio.volume = 0.32;
   audio.preload = "auto";
@@ -25,7 +25,7 @@
 
   function play() {
     const t = parseFloat(sessionStorage.getItem(POS) || "0");
-    if (isFinite(t) && t > 0 && t < 180) audio.currentTime = t;
+    if (isFinite(t) && t > 0 && t < 355) audio.currentTime = t;
     audio.play().then(() => {
       btn.classList.add("playing");
       btn.setAttribute("aria-pressed", "true");

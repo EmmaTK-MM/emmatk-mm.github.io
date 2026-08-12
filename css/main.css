@@ -683,3 +683,6 @@ body.lb-lock { overflow: hidden; }
   opacity: .8;
 }
 .music-credit a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* hidden views stay hidden despite class display rules */
+[hidden] { display: none !important; }

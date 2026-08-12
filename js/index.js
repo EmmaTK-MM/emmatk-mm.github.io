@@ -103,7 +103,7 @@
   // hand-tunable covers: slug -> [photoIndexA, photoIndexB]
   const COVERS = {
     yunzhao:   [9, 6],
-    birth:     [3, 11],
+    birth:     [8, 59],
     yuezi:     [12, 1],
     fiftydays: [3, 6],
     hundred:   [3, 8],
@@ -138,8 +138,10 @@
         <h3 class="card-title">${c.title}</h3>
         <p class="card-en">${c.sub}</p>
         <div class="card-rule"></div>
-        <p class="card-meta"><b>${ch.count}</b> photographs · ${Album.fmtDates(ch)}</p>
-        <span class="card-link">OPEN THE ALBUM</span>
+        <p class="card-meta">${ch.picks && ch.picks.length
+          ? `<b>${ch.picks.length}</b> moments · from ${ch.count} photographs`
+          : `<b>${ch.count}</b> photographs`} · ${Album.fmtDates(ch)}</p>
+        <span class="card-link">OPEN THE CHAPTER</span>
       </div>`;
     list.appendChild(card);
   });

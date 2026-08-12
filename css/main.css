@@ -7,10 +7,10 @@
   --paper:      #FBF6EF;
   --paper-deep: #F5EBDF;
   --ink:        #40372F;
-  --ink-soft:   #8A7B6D;
+  --ink-soft:   #77685A;
   --ink-faint:  #B3A493;
   --rose:       #C4795A;
-  --rose-deep:  #A85F42;
+  --rose-deep:  #9C5535;
   --gold:       #C9A96A;
   --shadow-warm: 0 22px 60px -18px rgba(122, 84, 56, .35);
   --serif: "Playfair Display", "Noto Serif SC", serif;
@@ -279,7 +279,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 .card-day {
   font-size: 11.5px; font-weight: 700;
   letter-spacing: .3em;
-  color: var(--rose);
+  color: var(--rose-deep);
   text-transform: uppercase;
   margin-bottom: 14px;
 }
@@ -379,7 +379,7 @@ button { font-family: inherit; cursor: pointer; border: 0; background: none; }
 }
 .ch-day {
   font-size: 12px; font-weight: 700; letter-spacing: .32em;
-  color: var(--rose); text-transform: uppercase;
+  color: var(--rose-deep); text-transform: uppercase;
   margin-bottom: 14px;
 }
 .ch-title {
@@ -557,4 +557,84 @@ body.lb-lock { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   html { scroll-behavior: auto; }
+}
+
+
+/* ═══════════ curated storybook view ═══════════ */
+.picks-mode {
+  max-width: 940px;
+  margin: 0 auto;
+  padding: 10px 0 30px;
+}
+.pick {
+  margin: 0 auto;
+  max-width: 860px;
+  cursor: zoom-in;
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 1.1s cubic-bezier(.2,.7,.2,1), transform 1.1s cubic-bezier(.2,.7,.2,1);
+}
+.pick.seen { opacity: 1; transform: none; }
+.pick-frame {
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--paper-deep);
+  box-shadow: var(--shadow-warm);
+}
+.pick-frame img {
+  width: 100%; height: auto;
+  opacity: 0;
+  transition: opacity .7s ease, transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.pick-frame img.ld { opacity: 1; }
+.pick:hover .pick-frame img { transform: scale(1.015); }
+.pick-cap {
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(15px, 2vw, 19px);
+  color: var(--ink-soft);
+  padding: 18px 20px 0;
+}
+.pick-sep {
+  text-align: center;
+  color: var(--gold);
+  font-size: 20px;
+  padding: clamp(26px, 4.5vw, 54px) 0;
+}
+.view-all {
+  text-align: center;
+  padding: 60px 20px 20px;
+}
+.view-all a {
+  font-weight: 700; font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--rose-deep);
+  padding-bottom: 4px;
+  border-bottom: 2px solid rgba(196,121,90,.35);
+  transition: border-color .3s;
+}
+.view-all a:hover { border-color: var(--rose-deep); }
+
+/* keyboard access */
+.g-item:focus-visible, .pick:focus-visible {
+  outline: 3px solid var(--rose-deep);
+  outline-offset: 3px;
+}
+.lb-btn:focus-visible {
+  outline: 3px solid #FDF9F3;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* lightbox caption second line (curated captions) */
+.lb-caption { white-space: normal; text-align: center; max-width: 84vw; }
+.lb-caption .lb-line {
+  display: block;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 15px;
+  letter-spacing: .04em;
+  margin-top: 6px;
+  color: rgba(253,249,243,.92);
 }

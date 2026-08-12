@@ -44,6 +44,7 @@ const Album = (() => {
     const b = birthDate(m);
     if (!b || !ch.date_min) return "";
     const d1 = Math.max(1, Math.round((new Date(ch.date_min + "T00:00:00") - b) / 864e5) + 1);
+    if (!ch.date_max || ch.date_max === ch.date_min) return `Day ${d1}`;
     const d2 = Math.max(1, Math.round((new Date(ch.date_max + "T00:00:00") - b) / 864e5) + 1);
     return d1 === d2 ? `Day ${d1}` : `Days ${d1} – ${d2}`;
   }
@@ -51,8 +52,8 @@ const Album = (() => {
   function fmtDates(ch) {
     if (!ch.date_min) return "";
     const f = s => s.replace(/-/g, ".");
-    return ch.date_min === ch.date_max ? f(ch.date_min)
-      : `${f(ch.date_min)} — ${f(ch.date_max)}`;
+    if (!ch.date_max || ch.date_min === ch.date_max) return f(ch.date_min);
+    return `${f(ch.date_min)} — ${f(ch.date_max)}`;
   }
 
   const pad = n => String(n).padStart(4, "0");

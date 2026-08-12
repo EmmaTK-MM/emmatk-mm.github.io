@@ -674,15 +674,6 @@ body.lb-lock { overflow: hidden; }
   0%, 100% { transform: rotate(-8deg) scale(1); }
   50%      { transform: rotate(8deg) scale(1.12); }
 }
-.music-credit {
-  display: block;
-  margin-top: 10px;
-  font-size: 11px;
-  letter-spacing: .08em;
-  color: var(--ink-soft);
-  opacity: .8;
-}
-.music-credit a { text-decoration: underline; text-underline-offset: 2px; }
 
 /* hidden views stay hidden despite class display rules */
 [hidden] { display: none !important; }
